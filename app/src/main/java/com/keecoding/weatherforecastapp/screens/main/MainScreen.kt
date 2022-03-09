@@ -1,4 +1,4 @@
-package com.keecoding.weatherforecastapp.screens
+package com.keecoding.weatherforecastapp.screens.main
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
