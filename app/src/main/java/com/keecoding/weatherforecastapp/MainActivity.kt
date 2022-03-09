@@ -29,7 +29,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WeatherApp() {
-    WeatherForecastAppTheme {
+    WeatherForecastAppTheme(
+        darkTheme = false
+    ) {
         Surface(color = MaterialTheme.colors.background,
             modifier = Modifier.fillMaxSize()
         ) {
