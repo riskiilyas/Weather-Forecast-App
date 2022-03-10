@@ -20,6 +20,7 @@ import coil.compose.rememberImagePainter
 import com.keecoding.weatherforecastapp.data.DataOrException
 import com.keecoding.weatherforecastapp.model.Weather
 import com.keecoding.weatherforecastapp.utils.Constants
+import com.keecoding.weatherforecastapp.utils.formatDate
 import com.keecoding.weatherforecastapp.widgets.WeatherAppBar
 
 @Composable
@@ -63,7 +64,7 @@ fun MainContent(data: Weather?) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Nov 29",
+        Text(text = formatDate(data!!.list[0].dt),
             style = MaterialTheme.typography.caption,
             color = MaterialTheme.colors.onSecondary,
             fontWeight = FontWeight.SemiBold,
@@ -76,13 +77,13 @@ fun MainContent(data: Weather?) {
             shape = CircleShape,
             color = Color.Blue
         ) {
-            val deg = data!!.list[0].temp.day
+            val deg = data.list[0].temp.day
 
             Column(verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 WeatherStateImage(data.list[0].weather[0].icon)
-                Text(text = "${(deg*10).toInt().toDouble()/10}\u2103",
+                Text(text = "${deg.toInt()}\u2103",
                     color = Color.White,
                     style = MaterialTheme.typography.h4,
                 fontWeight = FontWeight.ExtraBold
