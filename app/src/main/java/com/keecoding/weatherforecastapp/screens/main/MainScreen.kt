@@ -46,6 +46,9 @@ fun MainScaffold(weather: Weather, navController: NavController) {
         topBar = {
             WeatherAppBar(
                 navController = navController,
+                onAddActionClicked = {
+
+                },
                 title = "${weather.city.name}, ${weather.city.country}",
                 elevation = 2.dp,
                 icon = Icons.Rounded.Home
@@ -112,7 +115,7 @@ fun MainContent(data: Weather?) {
                 contentPadding = PaddingValues(1.dp)
             ) {
                 itemsIndexed(items = data.list) { idx, item ->
-                    WeatherDetailRow(weather = item, idx)
+                    WeatherDetailRow(weather = item)
                 }
             }
             

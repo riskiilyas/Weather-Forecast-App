@@ -26,7 +26,7 @@ import com.keecoding.weatherforecastapp.utils.formatDate
 import com.keecoding.weatherforecastapp.utils.formatTime
 
 @Composable
-fun WeatherDetailRow(weather: WeatherObject, pos: Int) {
+fun WeatherDetailRow(weather: WeatherObject) {
     Surface(modifier = Modifier
         .fillMaxWidth()
         .padding(3.dp),
@@ -45,7 +45,6 @@ fun WeatherDetailRow(weather: WeatherObject, pos: Int) {
                 horizontalAlignment = Alignment.End
             ) {
                 Surface(
-//                    modifier = Modifier.padding(2.dp),
                     shape = CircleShape,
                     color = Color.Blue
                 ) {
@@ -82,13 +81,13 @@ fun HumidityWindPressureRow(weather: Weather?) {
             Text(text = "${weather!!.list[0].humidity}%", modifier = Modifier.padding(start = 2.dp))
         }
 
-        Row() {
+        Row {
             Icon(painter = painterResource(id = R.drawable.pressure), contentDescription = "Pressure",
                 modifier = Modifier.size(20.dp))
             Text(text = "${weather!!.list[0].pressure} psi", modifier = Modifier.padding(start = 2.dp))
         }
 
-        Row() {
+        Row {
             Icon(painter = painterResource(id = R.drawable.wind), contentDescription = "Wind",
                 modifier = Modifier.size(20.dp))
             Text(text = "${weather!!.list[0].speed} mph", modifier = Modifier.padding(start = 2.dp))
