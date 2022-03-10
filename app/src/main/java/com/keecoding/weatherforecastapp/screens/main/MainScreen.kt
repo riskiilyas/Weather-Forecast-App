@@ -12,11 +12,13 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.keecoding.weatherforecastapp.R
 import com.keecoding.weatherforecastapp.data.DataOrException
 import com.keecoding.weatherforecastapp.model.Weather
 import com.keecoding.weatherforecastapp.utils.Constants
@@ -96,6 +98,37 @@ fun MainContent(data: Weather?) {
             }
 
         }
+        HumidityWindPressureRow(weather = data)
+        Divider()
+    }
+}
+
+@Composable
+fun HumidityWindPressureRow(weather: Weather?) {
+    Row(modifier = Modifier
+        .padding(12.dp)
+        .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row(modifier = Modifier.padding(4.dp)) {
+            Icon(painter = painterResource(id = R.drawable.humidity), contentDescription = "Humidity",
+            modifier = Modifier.size(20.dp))
+            Text(text = "${weather!!.list[0].humidity}%", modifier = Modifier.padding(start = 2.dp))
+        }
+        
+        Row() {
+            Icon(painter = painterResource(id = R.drawable.pressure), contentDescription = "Pressure",
+                modifier = Modifier.size(20.dp))
+            Text(text = "${weather!!.list[0].pressure} psi", modifier = Modifier.padding(start = 2.dp))
+        }
+        
+        Row() {
+            Icon(painter = painterResource(id = R.drawable.wind), contentDescription = "Wind",
+                modifier = Modifier.size(20.dp))
+            Text(text = "${weather!!.list[0].speed} mph", modifier = Modifier.padding(start = 2.dp))
+        }
+        
     }
 }
 
