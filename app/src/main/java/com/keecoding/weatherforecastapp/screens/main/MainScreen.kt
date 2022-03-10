@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -23,6 +24,7 @@ import com.keecoding.weatherforecastapp.data.DataOrException
 import com.keecoding.weatherforecastapp.model.Weather
 import com.keecoding.weatherforecastapp.utils.Constants
 import com.keecoding.weatherforecastapp.utils.formatDate
+import com.keecoding.weatherforecastapp.utils.formatTime
 import com.keecoding.weatherforecastapp.widgets.WeatherAppBar
 
 @Composable
@@ -100,6 +102,13 @@ fun MainContent(data: Weather?) {
         }
         HumidityWindPressureRow(weather = data)
         Divider()
+        SunsetAndSunrise(weather = data)
+        Text(text = "This Week", modifier = Modifier.align(CenterHorizontally),
+            style = MaterialTheme.typography.h6
+        )
+        Surface(modifier = Modifier.padding(0.dp)) {
+            
+        }
     }
 }
 
@@ -127,6 +136,34 @@ fun HumidityWindPressureRow(weather: Weather?) {
             Icon(painter = painterResource(id = R.drawable.wind), contentDescription = "Wind",
                 modifier = Modifier.size(20.dp))
             Text(text = "${weather!!.list[0].speed} mph", modifier = Modifier.padding(start = 2.dp))
+        }
+        
+    }
+}
+
+@Composable
+fun SunsetAndSunrise(weather: Weather) {
+    Row(
+        modifier = Modifier
+            .padding(start = 12.dp, end = 12.dp, top = 32.dp, bottom = 32.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Row {
+            Icon(painter = painterResource(id = R.drawable.sunrise), contentDescription = "Sunrise",
+                modifier = Modifier.size(20.dp)
+            )
+            Text(text = formatTime(weather.list[0].sunrise), modifier = Modifier.padding(start = 2.dp))
+        }
+        
+        Row {
+            Text(text = formatTime(weather.list[0].sunset))
+            Icon(painter = painterResource(id = R.drawable.sunset), contentDescription = "Sunset",
+                modifier = Modifier
+                    .size(20.dp)
+                    .padding(start = 4.dp)
+            )
         }
         
     }
