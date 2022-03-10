@@ -2,6 +2,7 @@ package com.keecoding.weatherforecastapp.widgets
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -48,8 +49,10 @@ fun WeatherAppBar(
         navigationIcon = {
              if (icon!=null) {
                  Icon(imageVector = icon, contentDescription = "",
-                 tint = MaterialTheme.colors.onSecondary,
-                 modifier = Modifier.clickable { onButtonClicked.invoke() })
+                 tint = Color.Blue    ,
+                 modifier = Modifier
+                     .padding(start = 8.dp)
+                     .clickable { onButtonClicked.invoke() })
              }
         },
         backgroundColor = Color.Transparent,

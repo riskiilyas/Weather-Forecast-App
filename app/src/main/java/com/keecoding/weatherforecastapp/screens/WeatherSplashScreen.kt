@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.keecoding.weatherforecastapp.R
@@ -61,7 +62,8 @@ fun WeatherSplashScreen(navController: NavController) {
             Image(painter = painterResource(id = R.drawable.splashscreen),
                 contentDescription = "Sunny",
                 modifier = Modifier.width(150.dp))
-            Text(text = "How's the weather?",
+            Text(text = "Weather Forecast",
+                fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.h5
             )
 
