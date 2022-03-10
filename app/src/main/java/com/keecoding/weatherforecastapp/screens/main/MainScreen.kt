@@ -3,7 +3,11 @@ package com.keecoding.weatherforecastapp.screens.main
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -16,12 +20,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.keecoding.weatherforecastapp.R
 import com.keecoding.weatherforecastapp.data.DataOrException
 import com.keecoding.weatherforecastapp.model.Weather
+import com.keecoding.weatherforecastapp.model.WeatherObject
 import com.keecoding.weatherforecastapp.utils.Constants
 import com.keecoding.weatherforecastapp.utils.formatDate
 import com.keecoding.weatherforecastapp.utils.formatTime
@@ -106,8 +112,39 @@ fun MainContent(data: Weather?) {
         Text(text = "This Week", modifier = Modifier.align(CenterHorizontally),
             style = MaterialTheme.typography.h6
         )
-        Surface(modifier = Modifier.padding(0.dp)) {
+        Surface(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+            shape = RoundedCornerShape(size = 14.dp)
+        ) {
+            LazyColumn(modifier = Modifier.padding(2.dp),
+                contentPadding = PaddingValues(1.dp)
+            ) {
+                itemsIndexed(items = data.list) { idx, item ->
+                    WeatherDetailRow(weather = item, idx)
+                }
+            }
             
+        }
+    }
+}
+
+@Composable
+fun WeatherDetailRow(weather: WeatherObject, pos: Int) {
+    Surface(modifier = Modifier
+        .fillMaxWidth()
+        .padding(3.dp),
+        shape = RoundedCornerShape(16.dp),
+        color = Color.White,
+        elevation = 2.dp
+    ) {
+        Row(modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(text = formatDate(weather.dt).substring(0,3))
+            WeatherStateImage(code = weather.weather[0].icon)
+
         }
     }
 }
@@ -145,7 +182,7 @@ fun HumidityWindPressureRow(weather: Weather?) {
 fun SunsetAndSunrise(weather: Weather) {
     Row(
         modifier = Modifier
-            .padding(start = 12.dp, end = 12.dp, top = 32.dp, bottom = 32.dp)
+            .padding(start = 12.dp, end = 12.dp, top = 32.dp, bottom = 16.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -170,9 +207,9 @@ fun SunsetAndSunrise(weather: Weather) {
 }
 
 @Composable
-fun WeatherStateImage(code: String) {
+fun WeatherStateImage(code: String, size: Dp = 80.dp) {
     Image(painter = rememberImagePainter(Constants.IMAGE_URL + code + ".png"),
         contentDescription = "Weather Image",
-        modifier = Modifier.size(80.dp)
+        modifier = Modifier.size(size)
     )
 }
