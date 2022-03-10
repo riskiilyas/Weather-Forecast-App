@@ -1,9 +1,13 @@
 package com.keecoding.weatherforecastapp.widgets
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
@@ -23,11 +27,33 @@ fun WeatherAppBar(
     onAddActionClicked: () -> Unit = {},
     onButtonClicked: () -> Unit = {}
 ) {
-    TopAppBar {
-        Text(text = title,
-            color = Color.White,
-            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 15.sp)
-        )
-    }
+    TopAppBar(
+        title = {
+            Text(text = title,
+                color = Color.DarkGray,
+                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            )
+        },
+        actions = {
+                  if (isMainScreen) {
+                      IconButton(onClick = { /*TODO*/ }) {
+                          Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon")
+                      }
+
+                      IconButton(onClick = { /*TODO*/ }) {
+                          Icon(imageVector = Icons.Rounded.MoreVert, contentDescription = "More Icon")
+                      }
+                  } else Box {}
+        },
+        navigationIcon = {
+             if (icon!=null) {
+                 Icon(imageVector = icon, contentDescription = "",
+                 tint = MaterialTheme.colors.onSecondary,
+                 modifier = Modifier.clickable { onButtonClicked.invoke() })
+             }
+        },
+        backgroundColor = Color.Transparent,
+        elevation = elevation
+    )
 
 }
