@@ -1,17 +1,25 @@
 package com.keecoding.weatherforecastapp.screens.main
 
 import android.util.Log
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.keecoding.weatherforecastapp.data.DataOrException
 import com.keecoding.weatherforecastapp.model.Weather
+import com.keecoding.weatherforecastapp.utils.Constants
 import com.keecoding.weatherforecastapp.widgets.WeatherAppBar
 
 @Composable
@@ -48,8 +56,52 @@ fun MainScaffold(weather: Weather, navController: NavController) {
 }
 
 @Composable
-fun MainContent(data: Weather) {
-    
-    Text(text = data.city.name)
-    
+fun MainContent(data: Weather?) {
+    Column(modifier = Modifier
+        .padding(4.dp)
+        .fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Nov 29",
+            style = MaterialTheme.typography.caption,
+            color = MaterialTheme.colors.onSecondary,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(6.dp)
+        )
+
+        Surface(modifier = Modifier
+            .padding(4.dp)
+            .size(200.dp),
+            shape = CircleShape,
+            color = Color.Blue
+        ) {
+            val deg = data!!.list[0].temp.day
+
+            Column(verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                WeatherStateImage(data.list[0].weather[0].icon)
+                Text(text = "${(deg*10).toInt().toDouble()/10}\u2103",
+                    color = Color.White,
+                    style = MaterialTheme.typography.h4,
+                fontWeight = FontWeight.ExtraBold
+                )
+                Text(text = data.list[0].weather[0].main,
+                    color = Color.White,
+                    fontStyle = FontStyle.Italic
+                )
+
+            }
+
+        }
+    }
+}
+
+@Composable
+fun WeatherStateImage(code: String) {
+    Image(painter = rememberImagePainter(Constants.IMAGE_URL + code + ".png"),
+        contentDescription = "Weather Image",
+        modifier = Modifier.size(80.dp)
+    )
 }
