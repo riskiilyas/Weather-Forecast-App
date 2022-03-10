@@ -1,5 +1,7 @@
 package com.keecoding.weatherforecastapp.screens.main
 
+import android.view.animation.OvershootInterpolator
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -9,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -19,8 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.keecoding.weatherforecastapp.data.DataOrException
 import com.keecoding.weatherforecastapp.model.Weather
+import com.keecoding.weatherforecastapp.navigation.WeatherScreens
 import com.keecoding.weatherforecastapp.utils.formatDate
 import com.keecoding.weatherforecastapp.widgets.*
+import kotlinx.coroutines.delay
 
 @Composable
 fun MainScreen(
@@ -47,7 +52,7 @@ fun MainScaffold(weather: Weather, navController: NavController) {
             WeatherAppBar(
                 navController = navController,
                 onAddActionClicked = {
-
+                    navController.navigate(WeatherScreens.SearchScreen.name)
                 },
                 title = "${weather.city.name}, ${weather.city.country}",
                 elevation = 2.dp,
