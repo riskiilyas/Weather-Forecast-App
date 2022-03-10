@@ -8,6 +8,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,6 +30,9 @@ fun WeatherAppBar(
     onAddActionClicked: () -> Unit = {},
     onButtonClicked: () -> Unit = {}
 ) {
+    val showDialog = remember {
+        mutableStateOf(false)
+    }
     TopAppBar(
         title = {
             Text(text = title,
