@@ -1,5 +1,6 @@
 package com.keecoding.weatherforecastapp.screens.main
 
+import android.util.Log
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -25,16 +27,21 @@ import com.keecoding.weatherforecastapp.model.Weather
 import com.keecoding.weatherforecastapp.navigation.WeatherScreens
 import com.keecoding.weatherforecastapp.utils.formatDate
 import com.keecoding.weatherforecastapp.widgets.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen(
     navController: NavController,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    city: String?
 ) {
+    Log.d("tag2", "MainScreen: $city")
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)) {
-        value = mainViewModel.getWeather("Surabaya")
+        value = mainViewModel.getWeather(city.toString())
     }.value
 
     if (weatherData.loading == true) {

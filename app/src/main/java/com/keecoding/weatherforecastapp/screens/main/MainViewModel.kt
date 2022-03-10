@@ -20,6 +20,10 @@ class MainViewModel @Inject constructor(
 ): ViewModel() {
 
     suspend fun getWeather(city: String): DataOrException<Weather, Boolean, Exception> {
-        return repository.getWeather(city)
+        var rslt =  repository.getWeather(city)
+        if (rslt.data==null) {
+            rslt = repository.getWeather("Surabaya")
+        }
+        return rslt
     }
 }

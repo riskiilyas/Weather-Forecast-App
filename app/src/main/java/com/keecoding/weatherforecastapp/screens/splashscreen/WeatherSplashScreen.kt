@@ -1,4 +1,4 @@
-package com.keecoding.weatherforecastapp.screens
+package com.keecoding.weatherforecastapp.screens.splashscreen
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
@@ -41,7 +41,7 @@ fun WeatherSplashScreen(navController: NavController) {
             )
         )
         delay(1500L)
-        navController.navigate(WeatherScreens.MainScreen.name)
+        navController.navigate(WeatherScreens.MainScreen.name + "/Surabaya")
     })
     Surface(
         modifier = Modifier
