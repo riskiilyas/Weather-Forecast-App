@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keecoding.weatherforecastapp.data.DataOrException
 import com.keecoding.weatherforecastapp.model.Weather
+import com.keecoding.weatherforecastapp.model.WeatherX
 import com.keecoding.weatherforecastapp.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,21 +19,7 @@ class MainViewModel @Inject constructor(
 
 ): ViewModel() {
 
-    val data: MutableState<DataOrException<Weather, Boolean, Exception>>
-        = mutableStateOf(DataOrException(null, true, Exception("")))
-
-
-    init {
-       loadWeather("Seattle")
-    }
-
-    private fun loadWeather(city: String) {
-        viewModelScope.launch {
-            if (city.isBlank()) return@launch
-            data.value.loading = true
-            data.value = repository.getWeather(cityQuery = city)
-            if (data.value.data.toString().isNotBlank()) data.value.loading = false
-        }
-        Log.d("tagg", "loadWeather: ${data.value.data.toString()} ")
+    suspend fun getWeather(city: String): DataOrException<Weather, Boolean, Exception> {
+        return repository.getWeather(city)
     }
 }
