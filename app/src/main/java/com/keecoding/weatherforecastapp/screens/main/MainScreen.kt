@@ -8,6 +8,7 @@ import androidx.compose.runtime.produceState
 import androidx.navigation.NavController
 import com.keecoding.weatherforecastapp.data.DataOrException
 import com.keecoding.weatherforecastapp.model.Weather
+import com.keecoding.weatherforecastapp.widgets.WeatherAppBar
 
 @Composable
 fun MainScreen(
@@ -31,7 +32,7 @@ fun MainScaffold(weather: Weather, navController: NavController) {
     
     Scaffold(
         topBar = {
-
+            WeatherAppBar(navController = navController, title = "Seattle, US")
         }
     ) {
         MainContent(data = weather)
