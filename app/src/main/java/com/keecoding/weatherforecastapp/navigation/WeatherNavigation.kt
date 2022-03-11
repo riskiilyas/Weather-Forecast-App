@@ -7,10 +7,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.keecoding.weatherforecastapp.screens.about.AboutScreen
+import com.keecoding.weatherforecastapp.screens.favorite.FavoriteScreen
 import com.keecoding.weatherforecastapp.screens.splashscreen.WeatherSplashScreen
 import com.keecoding.weatherforecastapp.screens.main.MainScreen
 import com.keecoding.weatherforecastapp.screens.main.MainViewModel
 import com.keecoding.weatherforecastapp.screens.search.SearchScreen
+import com.keecoding.weatherforecastapp.screens.setting.SettingScreen
 
 @Composable
 fun WeatherNavigation() {
@@ -39,6 +42,18 @@ fun WeatherNavigation() {
         
         composable(WeatherScreens.SearchScreen.name) {
             SearchScreen(navController = navController)
+        }
+
+        composable(WeatherScreens.AboutScreen.name) {
+            AboutScreen(navController = navController)
+        }
+
+        composable(WeatherScreens.SettingScreen.name) {
+            SettingScreen(navController = navController)
+        }
+
+        composable(WeatherScreens.FavoriteScreen.name) {
+            FavoriteScreen(navController = navController)
         }
     }
 }
