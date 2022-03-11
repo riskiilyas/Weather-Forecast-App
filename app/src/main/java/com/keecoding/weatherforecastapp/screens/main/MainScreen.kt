@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -63,7 +64,8 @@ fun MainScaffold(weather: Weather, navController: NavController) {
                 },
                 title = "${weather.city.name}, ${weather.city.country}",
                 elevation = 2.dp,
-                icon = Icons.Rounded.Home
+                icon = Icons.Rounded.FavoriteBorder,
+                weather = weather
             )
         }
     ) {

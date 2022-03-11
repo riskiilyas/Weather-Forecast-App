@@ -1,8 +1,10 @@
 package com.keecoding.weatherforecastapp.widgets
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -21,7 +23,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
+import com.keecoding.weatherforecastapp.model.Weather
 import com.keecoding.weatherforecastapp.navigation.WeatherScreens
+import com.keecoding.weatherforecastapp.utils.Constants
 
 @Composable
 fun WeatherAppBar(
@@ -29,6 +34,7 @@ fun WeatherAppBar(
     icon: ImageVector? = null,
     isMainScreen: Boolean = true,
     elevation: Dp = 0.dp,
+    weather: Weather? = null,
     navController: NavController,
     onAddActionClicked: () -> Unit = {},
     onButtonClicked: () -> Unit = {}
@@ -48,6 +54,16 @@ fun WeatherAppBar(
                 color = Color.DarkGray,
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 18.sp)
             )
+
+            weather?.let {
+                Image(painter = rememberImagePainter(Constants.FLAG_URL + weather.city.country.lowercase()),
+                    contentDescription = "Country Flag",
+                    modifier = Modifier.size(24.dp).padding(start = 4.dp),
+                )
+            }
+
+
+
         },
         actions = {
                   if (isMainScreen) {
@@ -64,10 +80,16 @@ fun WeatherAppBar(
         },
         navigationIcon = {
              if (icon!=null) {
+                 val color = when(icon) {
+                     Icons.Default.Favorite -> Color.Red
+                     else -> Color.Gray
+                 }
                  Icon(imageVector = icon, contentDescription = "",
-                 tint = Color.Blue    ,
-                 modifier = Modifier.padding(start = 8.dp)
-                     .clickable { onButtonClicked.invoke() })
+                 tint = color    ,
+                 modifier = Modifier
+                     .padding(start = 8.dp)
+                     .clickable { onButtonClicked.invoke() }
+                 )
              }
         },
         backgroundColor = Color.Transparent,
