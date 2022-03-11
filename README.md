@@ -24,3 +24,4 @@ My #3 jetpack compose app that i have learned on udemy course. This app is a wea
 - Kotlin Coroutines
 - Dagger Hilt
 - Koil
+- Animated Splashscreen
