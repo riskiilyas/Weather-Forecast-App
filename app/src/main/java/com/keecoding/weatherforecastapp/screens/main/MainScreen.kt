@@ -44,7 +44,7 @@ fun MainScreen(
 
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)) {
-        delay(100)
+        delay(200)
         value = mainViewModel.getWeather()
     }.value
 
@@ -113,7 +113,7 @@ fun MainContent(data: Weather?) {
 
         Surface(modifier = Modifier
             .padding(4.dp)
-            .size(200.dp),
+            .size(180.dp),
             shape = CircleShape,
             color = Color.Blue
         ) {

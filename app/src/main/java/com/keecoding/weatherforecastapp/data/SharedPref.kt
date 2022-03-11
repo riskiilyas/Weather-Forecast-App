@@ -10,7 +10,7 @@ class SharedPref @Inject constructor(
     private val pref = application.getSharedPreferences("weather_shared_pref", Context.MODE_PRIVATE)
 
     var city
-        get() = pref.getString("city", "Surabaya")
+        get() = pref.getString("city", "Indonesia")
         set(value) {
             pref.edit().putString("city", value).apply()
         }

@@ -3,7 +3,7 @@ package com.keecoding.weatherforecastapp.data
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.ABORT
+import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.keecoding.weatherforecastapp.model.Favorite
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WeatherDao {
 
-    @Insert(onConflict = ABORT)
+    @Insert(onConflict = REPLACE)
     suspend fun insertFavorite(favorite: Favorite)
 
     @Query("SELECT * FROM favorite where city = :city")
