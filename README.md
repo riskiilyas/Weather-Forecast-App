@@ -6,11 +6,11 @@ My #3 jetpack compose app that i have learned on udemy course. This app is a wea
 
 ## Screenshots
 <p>
-<img src="https://github.com/riskiilyas/Weather-Forecast-App/blob/master/Assets/ss7.jpeg" width="200"/>
-<img src="https://github.com/riskiilyas/Weather-Forecast-App/blob/master/Assets/ss6.jpeg" width="200"/>
-<img src="https://github.com/riskiilyas/Weather-Forecast-App/blob/master/Assets/ss1.jpeg" width="200"/>
- <img src="https://github.com/riskiilyas/Weather-Forecast-App/blob/master/Assets/ss3.jpeg" width="200"/>
-<img src="https://github.com/riskiilyas/Weather-Forecast-App/blob/master/Assets/ss4.jpeg" width="200"/>
+<img src="https://github.com/riskiilyas/Weather-Forecast-App/blob/master/Assets/ss7.jpeg" width="180"/>
+<img src="https://github.com/riskiilyas/Weather-Forecast-App/blob/master/Assets/ss6.jpeg" width="180"/>
+<img src="https://github.com/riskiilyas/Weather-Forecast-App/blob/master/Assets/ss1.jpeg" width="180"/>
+<img src="https://github.com/riskiilyas/Weather-Forecast-App/blob/master/Assets/ss3.jpeg" width="180"/>
+<img src="https://github.com/riskiilyas/Weather-Forecast-App/blob/master/Assets/ss4.jpeg" width="180"/>
 </p>
 
 ## Components
