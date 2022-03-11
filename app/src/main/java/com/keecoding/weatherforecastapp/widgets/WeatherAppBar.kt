@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.keecoding.weatherforecastapp.navigation.WeatherScreens
 
 @Composable
 fun WeatherAppBar(
@@ -65,8 +66,7 @@ fun WeatherAppBar(
              if (icon!=null) {
                  Icon(imageVector = icon, contentDescription = "",
                  tint = Color.Blue    ,
-                 modifier = Modifier
-                     .padding(start = 8.dp)
+                 modifier = Modifier.padding(start = 8.dp)
                      .clickable { onButtonClicked.invoke() })
              }
         },
@@ -93,11 +93,11 @@ fun ShowSettingDropDownMenu(showDialog: MutableState<Boolean>, navController: Na
         ) {
             items.forEachIndexed { index, item ->
                 DropdownMenuItem(onClick = {
-//                    when(index) {
-//                        0 ->;
-//                        1 ->;
-//                        2 ->;
-//                    }
+                    when(index) {
+                        0 -> navController.navigate(WeatherScreens.AboutScreen.name)
+                        1 -> navController.navigate(WeatherScreens.FavoriteScreen.name)
+                        2 -> navController.navigate(WeatherScreens.SettingScreen.name)
+                    }
                 }) {
                     val vector = when(index) {
                         0 -> Icons.Default.Info;
