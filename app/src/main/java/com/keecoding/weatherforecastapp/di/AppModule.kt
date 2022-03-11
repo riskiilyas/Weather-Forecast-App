@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.keecoding.weatherforecastapp.data.SharedPref
 import com.keecoding.weatherforecastapp.data.WeatherDb
 import com.keecoding.weatherforecastapp.network.WeatherApi
 import com.keecoding.weatherforecastapp.utils.Constants
@@ -41,5 +42,13 @@ object AppModule {
             .fallbackToDestructiveMigration()
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideWeatherDao(weatherDb: WeatherDb) = weatherDb.weatherDao
+
+    @Provides
+    @Singleton
+    fun provideSharedPref(application: Application) = SharedPref(application)
 
 }

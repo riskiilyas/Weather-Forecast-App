@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.keecoding.weatherforecastapp.navigation.WeatherScreens
 import com.keecoding.weatherforecastapp.widgets.WeatherAppBar
 
@@ -51,8 +52,9 @@ fun SearchScreen(navController: NavController) {
                     .padding(16.dp)
                     .align(CenterHorizontally)
                 ) {
-                    navController
-                        .navigate(WeatherScreens.MainScreen.name + "/$it")
+                    navController.navigate(WeatherScreens.MainScreen.name + "/$it",
+                        navOptions = NavOptions.Builder().setPopUpTo(WeatherScreens.SearchScreen.name, true).build()
+                    )
                 }
             }
         }
@@ -73,7 +75,7 @@ fun SearchBar(
     Column {
         CommonTextField(
             valueState = searchQueryState,
-            placeHolder = "Surabaya",
+            placeHolder = "City...",
             onAction = KeyboardActions {
                 if(!valid) return@KeyboardActions
                 onSearch(searchQueryState.value.trim())

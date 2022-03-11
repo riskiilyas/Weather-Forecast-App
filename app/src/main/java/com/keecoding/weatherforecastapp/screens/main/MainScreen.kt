@@ -1,48 +1,51 @@
 package com.keecoding.weatherforecastapp.screens.main
 
-import android.util.Log
-import android.view.animation.OvershootInterpolator
-import androidx.compose.animation.core.tween
+import android.content.ContextWrapper
+import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.material.icons.rounded.Home
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.keecoding.weatherforecastapp.data.DataOrException
 import com.keecoding.weatherforecastapp.model.Weather
 import com.keecoding.weatherforecastapp.navigation.WeatherScreens
+import com.keecoding.weatherforecastapp.screens.favorite.FavoriteViewModel
 import com.keecoding.weatherforecastapp.utils.formatDate
 import com.keecoding.weatherforecastapp.widgets.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun MainScreen(
     navController: NavController,
     mainViewModel: MainViewModel,
-    city: String?
+    city: String?,
 ) {
-    Log.d("tag2", "MainScreen: $city")
+    runBlocking {
+        city?.let { if (it!="null")  mainViewModel.setCity(it) }
+    }
+
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)) {
-        value = mainViewModel.getWeather(city.toString())
+        delay(100)
+        value = mainViewModel.getWeather()
     }.value
 
     if (weatherData.loading == true) {
@@ -50,22 +53,41 @@ fun MainScreen(
     } else if (weatherData.data != null) {
         MainScaffold(weatherData.data!!, navController)
     }
+
+    val context = LocalContext.current
+    BackHandler(true) {
+        var currentContext = context
+        while (currentContext is ContextWrapper) {
+            if (currentContext is ComponentActivity) {
+                currentContext.finish()
+            }
+            currentContext = currentContext.baseContext
+        }
+    }
 }
 
 @Composable
-fun MainScaffold(weather: Weather, navController: NavController) {
-    
+fun MainScaffold(weather: Weather, navController: NavController, vm: FavoriteViewModel = hiltViewModel()) {
+    var isFavorite = false
+    runBlocking {
+        vm.favList.value.forEach {
+            if (weather.city.name == it.city) isFavorite = true
+        }
+    }
+
     Scaffold(
         topBar = {
             WeatherAppBar(
                 navController = navController,
                 onAddActionClicked = {
-                    navController.navigate(WeatherScreens.SearchScreen.name)
+                    navController.navigate(WeatherScreens.SearchScreen.name,
+                        navOptions = NavOptions.Builder().setPopUpTo(WeatherScreens.MainScreen.name, true).build()
+                    )
                 },
                 title = "${weather.city.name}, ${weather.city.country}",
                 elevation = 2.dp,
-                icon = Icons.Rounded.FavoriteBorder,
-                weather = weather
+                weather = weather,
+                favorite = isFavorite
             )
         }
     ) {

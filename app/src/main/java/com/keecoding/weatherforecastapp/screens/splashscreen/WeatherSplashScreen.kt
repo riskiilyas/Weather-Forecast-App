@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import com.keecoding.weatherforecastapp.R
 import com.keecoding.weatherforecastapp.navigation.WeatherScreens
 import kotlinx.coroutines.delay
@@ -41,7 +42,9 @@ fun WeatherSplashScreen(navController: NavController) {
             )
         )
         delay(1500L)
-        navController.navigate(WeatherScreens.MainScreen.name + "/Surabaya")
+        navController.navigate(WeatherScreens.MainScreen.name + "/null",
+            navOptions = NavOptions.Builder().setPopUpTo(WeatherScreens.SplashScreen.name, true).build()
+        )
     })
     Surface(
         modifier = Modifier

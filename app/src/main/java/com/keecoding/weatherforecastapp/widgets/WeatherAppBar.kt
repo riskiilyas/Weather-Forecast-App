@@ -1,5 +1,6 @@
 package com.keecoding.weatherforecastapp.widgets
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,26 +8,31 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.keecoding.weatherforecastapp.model.Favorite
 import com.keecoding.weatherforecastapp.model.Weather
 import com.keecoding.weatherforecastapp.navigation.WeatherScreens
+import com.keecoding.weatherforecastapp.screens.favorite.FavoriteViewModel
 import com.keecoding.weatherforecastapp.utils.Constants
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun WeatherAppBar(
@@ -36,9 +42,17 @@ fun WeatherAppBar(
     elevation: Dp = 0.dp,
     weather: Weather? = null,
     navController: NavController,
+    favoriteViewModel: FavoriteViewModel = hiltViewModel(),
     onAddActionClicked: () -> Unit = {},
+    favorite: Boolean = false,
     onButtonClicked: () -> Unit = {}
 ) {
+    val context = LocalContext.current
+
+    var isFavorite by remember {
+        mutableStateOf(favorite)
+    }
+
     val showDialog = remember {
         mutableStateOf(false)
     }
@@ -58,12 +72,11 @@ fun WeatherAppBar(
             weather?.let {
                 Image(painter = rememberImagePainter(Constants.FLAG_URL + weather.city.country.lowercase()),
                     contentDescription = "Country Flag",
-                    modifier = Modifier.size(24.dp).padding(start = 4.dp),
+                    modifier = Modifier
+                        .size(24.dp)
+                        .padding(start = 4.dp),
                 )
             }
-
-
-
         },
         actions = {
                   if (isMainScreen) {
@@ -80,17 +93,57 @@ fun WeatherAppBar(
         },
         navigationIcon = {
              if (icon!=null) {
-                 val color = when(icon) {
-                     Icons.Default.Favorite -> Color.Red
-                     else -> Color.Gray
-                 }
                  Icon(imageVector = icon, contentDescription = "",
-                 tint = color    ,
+                 tint = Color.Gray,
                  modifier = Modifier
                      .padding(start = 8.dp)
                      .clickable { onButtonClicked.invoke() }
                  )
              }
+
+            if (isMainScreen) {
+                val vector = if (!isFavorite) Icons.Default.FavoriteBorder else Icons.Default.Favorite
+                val tint = if (!isFavorite) Color.Gray else Color.Red
+                Icon(imageVector = vector,
+                    tint = tint,
+                    contentDescription = "Favorite",
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .scale(0.9f)
+                        .clickable {
+                            isFavorite = !isFavorite
+                            if (isFavorite) {
+                                weather?.let {
+                                    favoriteViewModel.insertFavorite(
+                                        Favorite(
+                                            it.city.name,
+                                            it.city.country
+                                        )
+                                    )
+                                    Toast
+                                        .makeText(context, "Added To Favorite!", Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            } else {
+                                weather?.let {
+                                    favoriteViewModel.deleteFavorite(
+                                        Favorite(
+                                            it.city.name,
+                                            it.city.country
+                                        )
+                                    )
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "Removed From Favorite!",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
+                                }
+                            }
+                        }
+                )
+            }
         },
         backgroundColor = Color.Transparent,
         elevation = elevation
