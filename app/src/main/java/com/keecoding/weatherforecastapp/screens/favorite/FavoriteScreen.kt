@@ -50,7 +50,7 @@ fun FavoriteScreen(navController: NavController,
             navController.popBackStack()
         }
     }) {
-        androidx.compose.material.Surface(
+        Surface(
             modifier = Modifier
                 .padding(5.dp)
                 .fillMaxWidth()
@@ -75,7 +75,7 @@ fun FavoriteScreen(navController: NavController,
 
 @Composable
 fun CityRow(fav: Favorite, navController: NavController, favoriteViewModel: FavoriteViewModel) {
-    androidx.compose.material.Surface(modifier = Modifier
+    Surface(modifier = Modifier
         .padding(3.dp)
         .fillMaxWidth()
         .height(50.dp)
@@ -107,6 +107,9 @@ fun CityRow(fav: Favorite, navController: NavController, favoriteViewModel: Favo
             }
             Icon(imageVector = Icons.Rounded.Close, contentDescription = "",
                 modifier = Modifier.padding(end = 12.dp)
+                    .clickable {
+                        favoriteViewModel.deleteFavorite(fav)
+                    }
             )
         }
     }

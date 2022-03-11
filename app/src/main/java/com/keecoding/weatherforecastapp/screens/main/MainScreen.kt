@@ -44,7 +44,7 @@ fun MainScreen(
 
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true)) {
-        delay(200)
+        delay(400)
         value = mainViewModel.getWeather()
     }.value
 

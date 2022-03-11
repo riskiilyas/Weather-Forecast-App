@@ -1,6 +1,8 @@
 package com.keecoding.weatherforecastapp.widgets
 
+import android.content.ContextWrapper
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -50,7 +52,16 @@ fun WeatherAppBar(
     val context = LocalContext.current
 
     var isFavorite by remember {
-        mutableStateOf(favorite)
+        var boolean = false
+        weather?.let { w ->
+            favoriteViewModel.listCity?.forEach {
+                if (it==w.city.name) {
+                    boolean = true
+                    return@let
+                }
+            }
+        }
+        mutableStateOf(boolean)
     }
 
     val showDialog = remember {
@@ -153,8 +164,8 @@ fun WeatherAppBar(
 
 @Composable
 fun ShowSettingDropDownMenu(showDialog: MutableState<Boolean>, navController: NavController) {
-
-    val items = listOf("About", "Favorites", "Settings")
+    val context = LocalContext.current
+    val items = listOf("About", "Favorites", "Exit")
     Column(modifier = Modifier
         .fillMaxWidth()
         .wrapContentSize(Alignment.TopEnd)
@@ -171,13 +182,21 @@ fun ShowSettingDropDownMenu(showDialog: MutableState<Boolean>, navController: Na
                     when(index) {
                         0 -> navController.navigate(WeatherScreens.AboutScreen.name)
                         1 -> navController.navigate(WeatherScreens.FavoriteScreen.name)
-                        2 -> navController.navigate(WeatherScreens.SettingScreen.name)
+                        2 -> {
+                            var currentContext = context
+                            while (currentContext is ContextWrapper) {
+                                if (currentContext is ComponentActivity) {
+                                    currentContext.finish()
+                                }
+                                currentContext = currentContext.baseContext
+                            }
+                        }
                     }
                 }) {
                     val vector = when(index) {
                         0 -> Icons.Default.Info;
                         1 -> Icons.Default.Favorite;
-                        else -> Icons.Default.Settings;
+                        else -> Icons.Default.ExitToApp;
                     }
                     Icon(imageVector = vector, contentDescription = item, tint = Color.Blue)
                     Text(text = item, modifier = Modifier.padding(start = 8.dp))

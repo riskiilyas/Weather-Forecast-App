@@ -15,4 +15,10 @@ class SharedPref @Inject constructor(
             pref.edit().putString("city", value).apply()
         }
 
+    var listFavs
+        get() = pref.getStringSet("list_fav", mutableSetOf(city))
+        set(value) {
+            pref.edit().putStringSet("list_fav", value).apply()
+        }
+
 }

@@ -29,8 +29,8 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val data = getWeather(city).data
             if (data!=null) {
-                sharedPref.city = city
-                currentCity = city
+                sharedPref.city = data.city.name
+                currentCity = data.city.name
             } else {
                 Toast.makeText(application, "Can't find $city!", Toast.LENGTH_SHORT).show()
             }

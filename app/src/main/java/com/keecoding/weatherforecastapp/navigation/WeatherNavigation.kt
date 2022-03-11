@@ -13,7 +13,6 @@ import com.keecoding.weatherforecastapp.screens.splashscreen.WeatherSplashScreen
 import com.keecoding.weatherforecastapp.screens.main.MainScreen
 import com.keecoding.weatherforecastapp.screens.main.MainViewModel
 import com.keecoding.weatherforecastapp.screens.search.SearchScreen
-import com.keecoding.weatherforecastapp.screens.setting.SettingScreen
 
 @Composable
 fun WeatherNavigation() {
@@ -46,10 +45,6 @@ fun WeatherNavigation() {
 
         composable(WeatherScreens.AboutScreen.name) {
             AboutScreen(navController = navController)
-        }
-
-        composable(WeatherScreens.SettingScreen.name) {
-            SettingScreen(navController = navController)
         }
 
         composable(WeatherScreens.FavoriteScreen.name) {
